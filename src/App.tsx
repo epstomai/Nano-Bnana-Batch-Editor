@@ -460,7 +460,7 @@ export default function App() {
                         )}
                       </div>
                       <div className="p-4 bg-white">
-                        <p className="text-xs font-medium text-zinc-600 line-clamp-2 italic">
+                        <p className="text-xs font-medium text-zinc-600 italic break-words">
                           "{result.prompt}"
                         </p>
                       </div>
