@@ -1,0 +1,5 @@
+{
+  "name": "Image Batch Editor",
+  "description": "Upload an image and apply multiple prompts to generate variations using Gemini 3 Pro Image.",
+  "requestFramePermissions": []
+}
