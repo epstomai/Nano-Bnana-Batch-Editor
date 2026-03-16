@@ -14,6 +14,7 @@ export async function editImage(
   prompt: string,
   imageSize: "1K" | "2K" | "4K" = "1K",
   aspectRatio: "auto" | "1:1" | "3:4" | "4:3" | "9:16" | "16:9" | "1:4" | "1:8" | "4:1" | "8:1" = "auto",
+  model: "gemini-3.1-flash-image-preview" | "gemini-3-pro-image-preview" = "gemini-3.1-flash-image-preview",
   mimeType: string = "image/png"
 ): Promise<string> {
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -30,7 +31,7 @@ export async function editImage(
   }
 
   const response = await ai.models.generateContent({
-    model: 'gemini-3.1-flash-image-preview',
+    model: model,
     contents: {
       parts: [
         {

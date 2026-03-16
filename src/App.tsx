@@ -30,7 +30,8 @@ export default function App() {
     isProcessing: false,
     apiKeySelected: false,
     imageSize: "1K",
-    aspectRatio: "auto"
+    aspectRatio: "auto",
+    model: "gemini-3.1-flash-image-preview"
   });
 
   const [error, setError] = useState<string | null>(null);
@@ -154,7 +155,8 @@ export default function App() {
           state.originalImage, 
           item.finalPrompt,
           state.imageSize,
-          state.aspectRatio
+          state.aspectRatio,
+          state.model
         );
         setState(prev => {
           const newResults = [...prev.results];
@@ -194,7 +196,7 @@ export default function App() {
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-4"
         >
           <Sparkles className="w-3 h-3" />
-          Powered by Gemini 3.1 Flash
+          Powered by {state.model === 'gemini-3.1-flash-image-preview' ? 'Nano Banana 2' : 'Nano Banana Pro'}
         </motion.div>
         <h1 className="text-5xl md:text-7xl font-display font-bold tracking-tight mb-4">
           Batch <span className="text-emerald-600">Editor</span>
@@ -213,7 +215,7 @@ export default function App() {
           <Key className="w-12 h-12 mx-auto mb-4 text-emerald-400" />
           <h2 className="text-xl font-bold mb-2">API Key Required</h2>
           <p className="text-zinc-400 text-sm mb-6">
-            Gemini 3.1 Flash Image requires a paid API key. Please select your key to continue.
+            {state.model === 'gemini-3.1-flash-image-preview' ? 'Nano Banana 2' : 'Nano Banana Pro'} requires a paid API key. Please select your key to continue.
           </p>
           <button
             onClick={handleSelectKey}
@@ -269,41 +271,57 @@ export default function App() {
               <Maximize2 className="w-4 h-4" />
               Output Settings
             </h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-4">
               <div>
                 <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2 flex items-center gap-1">
-                  <Maximize2 className="w-3 h-3" /> Size
+                  <Sparkles className="w-3 h-3" /> Model
                 </label>
                 <select 
-                  value={state.imageSize}
-                  onChange={(e) => setState(prev => ({ ...prev, imageSize: e.target.value as any }))}
+                  value={state.model}
+                  onChange={(e) => setState(prev => ({ ...prev, model: e.target.value as any }))}
                   className="w-full px-3 py-2 rounded-xl bg-zinc-100 border-transparent text-sm outline-none focus:ring-2 focus:ring-emerald-500/20"
                   disabled={state.isProcessing}
                 >
-                  <option value="1K">1K (Standard)</option>
-                  <option value="2K">2K (High)</option>
-                  <option value="4K">4K (Ultra)</option>
+                  <option value="gemini-3.1-flash-image-preview">Nano Banana 2</option>
+                  <option value="gemini-3-pro-image-preview">Nano Banana Pro</option>
                 </select>
               </div>
-              <div>
-                <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2 flex items-center gap-1">
-                  <Layout className="w-3 h-3" /> Aspect Ratio
-                </label>
-                <select 
-                  value={state.aspectRatio}
-                  onChange={(e) => setState(prev => ({ ...prev, aspectRatio: e.target.value as any }))}
-                  className="w-full px-3 py-2 rounded-xl bg-zinc-100 border-transparent text-sm outline-none focus:ring-2 focus:ring-emerald-500/20"
-                  disabled={state.isProcessing}
-                >
-                  <option value="auto">Auto (Original)</option>
-                  <option value="1:1">1:1 (Square)</option>
-                  <option value="4:3">4:3 (Classic)</option>
-                  <option value="3:4">3:4 (Portrait)</option>
-                  <option value="16:9">16:9 (Wide)</option>
-                  <option value="9:16">9:16 (Vertical)</option>
-                  <option value="1:4">1:4 (Tall)</option>
-                  <option value="4:1">4:1 (Panoramic)</option>
-                </select>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2 flex items-center gap-1">
+                    <Maximize2 className="w-3 h-3" /> Size
+                  </label>
+                  <select 
+                    value={state.imageSize}
+                    onChange={(e) => setState(prev => ({ ...prev, imageSize: e.target.value as any }))}
+                    className="w-full px-3 py-2 rounded-xl bg-zinc-100 border-transparent text-sm outline-none focus:ring-2 focus:ring-emerald-500/20"
+                    disabled={state.isProcessing}
+                  >
+                    <option value="1K">1K (Standard)</option>
+                    <option value="2K">2K (High)</option>
+                    <option value="4K">4K (Ultra)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2 flex items-center gap-1">
+                    <Layout className="w-3 h-3" /> Aspect Ratio
+                  </label>
+                  <select 
+                    value={state.aspectRatio}
+                    onChange={(e) => setState(prev => ({ ...prev, aspectRatio: e.target.value as any }))}
+                    className="w-full px-3 py-2 rounded-xl bg-zinc-100 border-transparent text-sm outline-none focus:ring-2 focus:ring-emerald-500/20"
+                    disabled={state.isProcessing}
+                  >
+                    <option value="auto">Auto (Original)</option>
+                    <option value="1:1">1:1 (Square)</option>
+                    <option value="4:3">4:3 (Classic)</option>
+                    <option value="3:4">3:4 (Portrait)</option>
+                    <option value="16:9">16:9 (Wide)</option>
+                    <option value="9:16">9:16 (Vertical)</option>
+                    <option value="1:4">1:4 (Tall)</option>
+                    <option value="4:1">4:1 (Panoramic)</option>
+                  </select>
+                </div>
               </div>
             </div>
           </section>
